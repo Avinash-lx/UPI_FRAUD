@@ -1,0 +1,53 @@
+# ── Node / Frontend ────────────────────────────────────────────────────────
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+*.local
+
+# ── Java / Maven (Backend) ─────────────────────────────────────────────────
+backend/target/
+*.class
+*.jar
+*.war
+*.ear
+.mvn/wrapper/maven-wrapper.jar
+
+# ── Python / ML Service ────────────────────────────────────────────────────
+ml-service/__pycache__/
+ml-service/*.pyc
+ml-service/*.pyo
+ml-service/.venv/
+ml-service/venv/
+ml-service/env/
+ml-service/*.egg-info/
+ml-service/dist/
+ml-service/.pytest_cache/
+
+# ── Docker ─────────────────────────────────────────────────────────────────
+.docker/
+
+# ── IDEs & OS ──────────────────────────────────────────────────────────────
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*.swo
+Thumbs.db
+
+# ── Secrets / Env ──────────────────────────────────────────────────────────
+.env
+.env.local
+.env.production
+*.pem
+*.key
+
+# ── Logs ───────────────────────────────────────────────────────────────────
+logs/
+*.log
+npm-debug.log*
+
+# ── ML Model Files (binary — store with LFS if needed) ────────────────────
+ml-service/*.pkl
+ml-service/*.joblib
+ml-service/*.h5
+ml-service/models/

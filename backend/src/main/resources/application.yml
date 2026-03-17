@@ -1,0 +1,80 @@
+spring:
+  application:
+    name: fraud-detection-api
+
+  r2dbc:
+    url: ${SPRING_R2DBC_URL:r2dbc:postgresql://localhost:5432/frauddb}
+    username: ${SPRING_R2DBC_USERNAME:frauduser}
+    password: ${SPRING_R2DBC_PASSWORD:fraudpass123}
+    pool:
+      initial-size: 5
+      max-size: 20
+      max-idle-time: 30m
+
+  data:
+    redis:
+      host: ${SPRING_REDIS_HOST:localhost}
+      port: ${SPRING_REDIS_PORT:6379}
+      timeout: 2000ms
+      lettuce:
+        pool:
+          max-active: 8
+          max-idle: 8
+          min-idle: 2
+
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      acks: 1
+      retries: 3
+    consumer:
+      group-id: fraud-detection-group
+      auto-offset-reset: latest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "com.frauddetect.*"
+
+  security:
+    user:
+      name: admin
+      password: disabled
+
+ml:
+  service:
+    url: ${ML_SERVICE_URL:http://localhost:8000}
+    timeout-ms: 5000
+    fail-open: true
+
+jwt:
+  secret: ${JWT_SECRET:UPI_FRAUD_PLATFORM_JWT_SECRET_KEY_2024_PROD_CHANGE_ME}
+  expiration-ms: ${JWT_EXPIRATION_MS:900000}   # 15 minutes
+  refresh-expiration-ms: 604800000              # 7 days
+
+cors:
+  allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:3000}
+
+kafka:
+  topics:
+    scored-transactions: scored-transactions
+    fraud-alerts: fraud-alerts
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always
+
+server:
+  port: 8080
+  shutdown: graceful
+
+logging:
+  level:
+    com.frauddetect: DEBUG
+    org.springframework.security: INFO
